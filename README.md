@@ -1,2 +1,2 @@
 # meta-presence
-Meta layer for Yocto Proyect
+Meta layer for Yocto Proyect (WIP)
