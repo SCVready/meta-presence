@@ -1,2 +1,2 @@
 # meta-presence
-Meta layer for the kinect alarma proyect
+Meta layer for Yocto Proyect
