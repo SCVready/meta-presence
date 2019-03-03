@@ -1,0 +1,31 @@
+diff --git a/libavcodec/omx.c b/libavcodec/omx.c
+
+--- a/libavcodec/omx.c
++++ b/libavcodec/omx.c
+@@ -100,7 +100,7 @@ static av_cold int omx_try_load(OMXConte
+     if (libname2) {
+         s->lib2 = dlopen(libname2, RTLD_NOW | RTLD_GLOBAL);
+         if (!s->lib2) {
+-            av_log(logctx, AV_LOG_WARNING, "%s not found\n", libname);
++            av_log(logctx, AV_LOG_WARNING, "%s not found. dlerror:%s\n", libname2,dlerror());
+             return AVERROR_ENCODER_NOT_FOUND;
+         }
+         s->host_init = dlsym(s->lib2, "bcm_host_init");
+@@ -113,7 +113,7 @@ static av_cold int omx_try_load(OMXConte
+     }
+     s->lib = dlopen(libname, RTLD_NOW | RTLD_GLOBAL);
+     if (!s->lib) {
+-        av_log(logctx, AV_LOG_WARNING, "%s not found\n", libname);
++        av_log(logctx, AV_LOG_WARNING, "%s not found. dlerror:%s\n", libname,dlerror());
+         return AVERROR_ENCODER_NOT_FOUND;
+     }
+     s->ptr_Init                = dlsym_prefixed(s->lib, "OMX_Init", prefix);
+@@ -141,7 +141,7 @@ static av_cold OMXContext *omx_init(void
+ {
+     static const char * const libnames[] = {
+ #if CONFIG_OMX_RPI
+-        "/opt/vc/lib/libopenmaxil.so", "/opt/vc/lib/libbcm_host.so",
++        "libopenmaxil.so", "libbcm_host.so",
+ #else
+         "libOMX_Core.so", NULL,
+         "libOmxCore.so", NULL,
