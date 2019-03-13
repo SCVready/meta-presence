@@ -1,0 +1,15 @@
+diff --git a/libavcodec/omx.c b/libavcodec/omx.c
+
+--- a/libavcodec/omx.c
++++ b/libavcodec/omx.c
+@@ -644,9 +644,7 @@
+     OMX_BUFFERHEADERTYPE *buffer;
+     OMX_ERRORTYPE err;
+ 
+-#if CONFIG_OMX_RPI
+-    s->input_zerocopy = 1;
+-#endif
++
+ 
+     s->omx_context = omx_init(avctx, s->libname, s->libprefix);
+     if (!s->omx_context)

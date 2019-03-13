@@ -1,0 +1,31 @@
+diff --git a/libavcodec/omx.c b/libavcodec/omx.c
+
+--- a/libavcodec/omx.c
++++ b/libavcodec/omx.c
+@@ -739,6 +739,7 @@
+     int ret = 0;
+     OMX_BUFFERHEADERTYPE* buffer;
+     OMX_ERRORTYPE err;
++    int had_partial = 0;
+ 
+     if (frame) {
+         uint8_t *dst[4];
+@@ -830,7 +831,7 @@
+         // packet, or get EOS.
+         buffer = get_buffer(&s->output_mutex, &s->output_cond,
+                             &s->num_done_out_buffers, s->done_out_buffers,
+-                            !frame);
++                            !frame || had_partial);
+         if (!buffer)
+             break;
+ 
+@@ -865,6 +866,9 @@
+                     s->output_buf = NULL;
+                     s->output_buf_size = 0;
+                 }
++                #if CONFIG_OMX_RPI
++                    had_partial = 1;
++                #endif
+             } else {
+                 // End of frame, and the caller provided a preallocated frame
+                 if ((ret = ff_alloc_packet2(avctx, pkt, s->output_buf_size + buffer->nFilledLen, 0)) < 0) {

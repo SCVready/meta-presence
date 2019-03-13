@@ -1,5 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI += " file://omx.patch"
+SRC_URI += "file://omx_fix_buffer.patch \
+            file://omx_printf_lib.patch \
+            file://omx_zero_copy.patch \
+            "
 
 PACKAGECONFIG_append = " omx-rpi"
 
