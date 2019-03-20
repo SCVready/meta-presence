@@ -6,17 +6,36 @@ server {
 
         #access_log  logs/host.access.log  main;
 
+	location = /favicon.ico {
+		expires 30d;
+		root /var/www/localhost/html/images;
+        	try_files /favicon.png /favicon.png;
+    	}
+	
+	location ~ ^/(images|media|.well-known|css|js|fonts)/ {
+		expires 30d;
+		root /var/www/localhost/html/;
+        	try_files $uri $uri/ =404;
+   	 }
+	
+	location /request_login {
+		include proxy_params;
+        	proxy_pass http://unix:/etc/gunicorn/gunicorn.sock;
+    	}
+	location /socket.io/ {
+		proxy_http_version 1.1;
+        	proxy_buffering off;
+		
+        	proxy_set_header Upgrade $http_upgrade;
+        	proxy_set_header Connection "Upgrade";
+		
+        	include proxy_params;
+        	proxy_pass http://unix:/etc/gunicorn/gunicorn.sock;
+    	}
 	location / {
 		include proxy_params;
-		proxy_pass http://127.0.0.1:8080;
+		proxy_pass http://unix:/etc/gunicorn/gunicorn.sock;
 	}
-
-        # redirect server error pages to the static page /50x.html
-        #
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-            root   /var/www/localhost/html;
-        }
 
     }
 

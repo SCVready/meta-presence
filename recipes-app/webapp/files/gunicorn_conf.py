@@ -20,7 +20,7 @@ chdir = '/home/root/flask_app/'
 #       range.
 #
 
-bind = '0.0.0.0:8080'
+bind = 'unix:/etc/gunicorn/gunicorn.sock'
 backlog = 2048
 
 #
