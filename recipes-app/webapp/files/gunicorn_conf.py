@@ -1,7 +1,7 @@
 # Sample Gunicorn configuration file.
 
 
-chdir = '/home/root/flask_app/'
+chdir = '/home/root/webapp/'
 #
 # Server socket
 #
@@ -124,12 +124,12 @@ spew = False
 #       None to signal that Python should choose one on its own.
 #
 
-daemon = True
+daemon = False
 # raw_env = [
 #     'DJANGO_SECRET_KEY=something',
 #     'SPAM=eggs',
 # ]
-pidfile = None
+pidfile = '/run/gunicorn/gunicorn.pid'
 umask = 0
 user = None
 group = None
