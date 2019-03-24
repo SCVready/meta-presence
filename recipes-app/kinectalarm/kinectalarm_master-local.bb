@@ -58,3 +58,5 @@ kg_postinst_${PN} () {
 
 INITSCRIPT_NAME = "kinectalarm"
 INITSCRIPT_PARAMS = "defaults 92 20"
+
+RDEPENDS_${PN} += "libstdc++"

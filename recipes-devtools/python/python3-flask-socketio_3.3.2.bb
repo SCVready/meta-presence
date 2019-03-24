@@ -18,4 +18,4 @@ inherit pypi setuptools3
 
 PYPI_PACKAGE = "Flask-SocketIO"
 
-RDEPENDS_${PN}_class-target = "${PYTHON_PN}-flask"
+RDEPENDS_${PN}_class-target = "${PYTHON_PN}-flask python3-socketio python3-engineio python3-six python3-setuptools python3-modules"
