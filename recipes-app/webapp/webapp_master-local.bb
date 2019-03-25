@@ -64,5 +64,5 @@ FILES_${PN} += "${base_prefix}/home/root/webapp/templates/liveview.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/login.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/main.html"
 
-RDEPENDS_${PN} += "python3-flask python3-flask-login python3-flask-socketio gunicorn"
+RDEPENDS_${PN} += "python3-flask python3-flask-login python3-flask-socketio gunicorn python-gevent"
 
