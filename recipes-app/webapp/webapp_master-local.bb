@@ -28,6 +28,8 @@ do_install () {
 
 	install -d ${D}${base_prefix}/home/root/webapp
 	install -m 0755 ${WORKDIR}/git/webapp.py ${D}${base_prefix}/home/root/webapp/webapp.py
+	install -m 0755 ${WORKDIR}/git/common.py ${D}${base_prefix}/home/root/webapp/common.py
+	install -m 0755 ${WORKDIR}/git/services.py ${D}${base_prefix}/home/root/webapp/services.py
 
 	install -d ${D}${base_prefix}/home/root/webapp/templates
 	for file in ${WORKDIR}/git/templates/*;do
@@ -57,6 +59,8 @@ do_install () {
 
 
 FILES_${PN} += "${base_prefix}/home/root/webapp/webapp.py"
+FILES_${PN} += "${base_prefix}/home/root/webapp/common.py"
+FILES_${PN} += "${base_prefix}/home/root/webapp/services.py"
 
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/base.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/error.html"
