@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
 inherit update-rc.d
 
 INITSCRIPT_NAME = "gunicorn"
-INITSCRIPT_PARAMS = "defaults 92 20"
+INITSCRIPT_PARAMS = "defaults 91 20"
 
 SRC_URI = "git:///home/scvready/workspace/github/webapp/;branch=master;protocol=file"
 SRCREV = "${AUTOREV}"
@@ -13,13 +13,14 @@ SRC_URI += " \
             file://gunicorn.init \
             file://gunicorn-volatile.conf \
             file://gunicorn_conf.py \
+	    file://password \
            "
 
 S = "${WORKDIR}/git/"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1ebbd3e34237af26da5dc08a4e440464"
 
-# Don' own parent directories of this package. To avoid conflict in /var/www/localhost/html
+# Don' own parent directories of this package. To avoid conflict in /var/www/localhost/html:
 DIRFILES = "1" 
 
 do_install () {
@@ -36,6 +37,8 @@ do_install () {
 	    install -m 755 "$file" ${D}${base_prefix}/home/root/webapp/templates/
 	done
 
+	# Static files installation
+
 	install -d ${D}${base_prefix}/var/www/localhost/html
 	cp -R ${WORKDIR}/git/static/. ${D}${base_prefix}/var/www/localhost/html/
 
@@ -43,6 +46,9 @@ do_install () {
 
 	install -d ${D}${sysconfdir}/gunicorn
 	install -m 0644 ${WORKDIR}/gunicorn_conf.py ${D}${sysconfdir}/gunicorn/gunicorn_conf.py
+
+	# Webapp passhash file installation
+	install -m 0644 ${WORKDIR}/password ${D}${sysconfdir}/gunicorn/password
 
 	# Install init script
 	
@@ -66,6 +72,7 @@ FILES_${PN} += "${base_prefix}/home/root/webapp/templates/base.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/error.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/liveview.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/login.html"
+FILES_${PN} += "${base_prefix}/home/root/webapp/templates/options.html"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/main.html"
 
 RDEPENDS_${PN} += "python3-flask python3-flask-login python3-flask-socketio gunicorn python-gevent"

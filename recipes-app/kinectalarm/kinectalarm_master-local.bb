@@ -46,7 +46,7 @@ do_install_append () {
 
 # Populate folder on temp directories
 
-kg_postinst_${PN} () {
+pkg_postinst_${PN} () {
     if [ -z "$D" ]; then
         if type systemd-tmpfiles >/dev/null; then
             systemd-tmpfiles --create
@@ -57,6 +57,6 @@ kg_postinst_${PN} () {
 }
 
 INITSCRIPT_NAME = "kinectalarm"
-INITSCRIPT_PARAMS = "defaults 92 20"
+INITSCRIPT_PARAMS = "defaults 90 20"
 
 RDEPENDS_${PN} += "libstdc++"
