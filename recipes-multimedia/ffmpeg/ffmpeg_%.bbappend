@@ -6,7 +6,7 @@ SRC_URI += "file://omx_fix_buffer.patch \
 
 PACKAGECONFIG_append = " omx-rpi"
 
-PACKAGECONFIG[omx] = "--enable-omx,--disable-omx,libomxil"
-PACKAGECONFIG[omx-rpi] = "--enable-omx-rpi,--disable-omx-rpi,libomxil"
+PACKAGECONFIG[omx] = "--enable-omx,--disable-omx,libomxil,libomxil"
+PACKAGECONFIG[omx-rpi] = "--enable-omx-rpi,--disable-omx-rpi,libomxil,libomxil"
 
 RDEPENDS_${PN}_append = " userland"
