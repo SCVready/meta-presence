@@ -28,9 +28,9 @@ do_install () {
 	# WebApp files installation
 
 	install -d ${D}${base_prefix}/home/root/webapp
-	install -m 0755 ${WORKDIR}/git/webapp.py ${D}${base_prefix}/home/root/webapp/webapp.py
-	install -m 0755 ${WORKDIR}/git/common.py ${D}${base_prefix}/home/root/webapp/common.py
-	install -m 0755 ${WORKDIR}/git/services.py ${D}${base_prefix}/home/root/webapp/services.py
+	install -d ${D}${base_prefix}/home/root/webapp/main
+	install -m 0755 ${WORKDIR}/git/__init__.py ${D}${base_prefix}/home/root/webapp/__init__.py
+	cp -R ${WORKDIR}/git/main/. ${D}${base_prefix}/home/root/webapp/main
 
 	install -d ${D}${base_prefix}/home/root/webapp/templates
 	for file in ${WORKDIR}/git/templates/*;do
@@ -65,6 +65,7 @@ do_install () {
 
 
 FILES_${PN} += "${base_prefix}/home/root/webapp/*"
+FILES_${PN} += "${base_prefix}/home/root/webapp/main/*"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/*"
 
 RDEPENDS_${PN} += "python-flask python-flask-login python-flask-socketio gunicorn python-eventlet"

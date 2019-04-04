@@ -1,7 +1,7 @@
 # Sample Gunicorn configuration file.
 
 
-chdir = '/home/root/webapp/'
+chdir = '/home/root/'
 #
 # Server socket
 #
