@@ -64,16 +64,8 @@ do_install () {
 }
 
 
-FILES_${PN} += "${base_prefix}/home/root/webapp/webapp.py"
-FILES_${PN} += "${base_prefix}/home/root/webapp/common.py"
-FILES_${PN} += "${base_prefix}/home/root/webapp/services.py"
+FILES_${PN} += "${base_prefix}/home/root/webapp/*"
+FILES_${PN} += "${base_prefix}/home/root/webapp/templates/*"
 
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/base.html"
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/error.html"
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/liveview.html"
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/login.html"
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/options.html"
-FILES_${PN} += "${base_prefix}/home/root/webapp/templates/main.html"
-
-RDEPENDS_${PN} += "python3-flask python3-flask-login python3-flask-socketio gunicorn python-gevent"
+RDEPENDS_${PN} += "python-flask python-flask-login python-flask-socketio gunicorn python-eventlet"
 
