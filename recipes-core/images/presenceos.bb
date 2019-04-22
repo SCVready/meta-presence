@@ -11,6 +11,11 @@ IMAGE_INSTALL_append+="nginx"
 IMAGE_INSTALL_append+="webapp"
 IMAGE_INSTALL_append+="gen-cert"
 
+IMAGE_INSTALL_append+="redis"
+IMAGE_INSTALL_append+="python-redis"
+IMAGE_INSTALL_append+="hiredis"
+IMAGE_INSTALL_append+="libevent"
+
 IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"

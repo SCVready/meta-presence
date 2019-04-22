@@ -18,7 +18,7 @@ S = "${WORKDIR}/git/"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3c34afdc3adf82d2448f12715a255122"
 
-DEPENDS = "libfreenect libxml2 ffmpeg freeimage"
+DEPENDS = "libfreenect libxml2 ffmpeg freeimage hiredis libevent openssl"
 
 do_install_append () {
 	
@@ -59,4 +59,4 @@ pkg_postinst_${PN} () {
 INITSCRIPT_NAME = "kinectalarm"
 INITSCRIPT_PARAMS = "defaults 90 20"
 
-RDEPENDS_${PN} += "libstdc++"
+RDEPENDS_${PN} += "libstdc++ openssl libevent hiredis"

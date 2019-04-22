@@ -32,7 +32,7 @@ server {
         	try_files /favicon.png /favicon.png;
     	}
 	
-	location ~ ^/(images|media|.well-known|css|js|fonts)/ {
+	location ~ ^/(images|media|.well-known|css|js|fonts|vendor)/ {
 		expires 30d;
 		root /var/www/localhost/html/;
         	try_files $uri $uri/ =404;
