@@ -68,5 +68,5 @@ FILES_${PN} += "${base_prefix}/home/root/webapp/*"
 FILES_${PN} += "${base_prefix}/home/root/webapp/main/*"
 FILES_${PN} += "${base_prefix}/home/root/webapp/templates/*"
 
-RDEPENDS_${PN} += "python-flask python-flask-login python-flask-socketio python-gunicorn python-eventlet"
+RDEPENDS_${PN} += "python-flask python-flask-login python-flask-socketio python-gunicorn python-eventlet js-snackbar"
 
