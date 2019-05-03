@@ -16,6 +16,9 @@ IMAGE_INSTALL_append+="python-redis"
 IMAGE_INSTALL_append+="hiredis"
 IMAGE_INSTALL_append+="libevent"
 
+IMAGE_INSTALL_append+="sqlite3"
+IMAGE_INSTALL_append+="python-pysqlite"
+
 IMAGE_LINGUAS = " "
 
 LICENSE = "MIT"

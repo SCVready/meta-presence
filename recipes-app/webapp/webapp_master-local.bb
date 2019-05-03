@@ -39,8 +39,11 @@ do_install () {
 
 	# Static files installation
 
-	install -d ${D}${base_prefix}/var/www/localhost/html
-	cp -R ${WORKDIR}/git/static/. ${D}${base_prefix}/var/www/localhost/html/
+	install -d ${D}${localstatedir}/www/localhost/html
+	install -d ${D}${localstatedir}/www/localhost/html/css
+	install -d ${D}${localstatedir}/www/localhost/html/js
+
+	cp -R ${WORKDIR}/git/static/. ${D}${base_prefix}${localstatedir}/www/localhost/html/
 
 	# Gunicorn Config file on /etc/gunicorn/gunicorn_conf.py
 
