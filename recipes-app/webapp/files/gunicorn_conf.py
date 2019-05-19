@@ -1,5 +1,7 @@
 # Sample Gunicorn configuration file.
 
+# Allpws the server to send files
+sendfile=False
 
 chdir = '/home/root/'
 #
