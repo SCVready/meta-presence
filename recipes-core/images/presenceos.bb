@@ -9,6 +9,7 @@ IMAGE_INSTALL_append+="glibc-utils localedef"
 IMAGE_INSTALL_append+="kinectalarm"
 IMAGE_INSTALL_append+="nginx"
 IMAGE_INSTALL_append+="webapp"
+IMAGE_INSTALL_append+="emailsender"
 IMAGE_INSTALL_append+="gen-cert"
 
 IMAGE_INSTALL_append+="redis"

@@ -1,0 +1,21 @@
+
+--- a/css/js-snackbar.css	2019-04-22 22:57:39.590480951 +0200
++++ b/css/js-snackbar.css	2019-05-22 19:29:22.518650757 +0200
+@@ -1,7 +1,7 @@
+ ﻿.js-snackbar-container {
+-    position: absolute;
+-    bottom: 0;
+-    right: 0;
++    position: fixed;
++    top: 0;
++    right: 40%;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-end;
+@@ -101,4 +101,4 @@
+ 
+ .js-snackbar__close:hover {
+     background-color: #444;
+-}
+\ No newline at end of file
++}
