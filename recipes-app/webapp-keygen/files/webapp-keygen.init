@@ -1,0 +1,12 @@
+#! /bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+OPENSSL=/usr/bin/openssl
+WEBAPPKEY=/etc/gunicorn/webapp-key
+
+test -x $OPENSSL || exit 0
+
+test ! -f $WEBAPPKEY  || exit 0
+
+openssl rand -hex 20 > /etc/gunicorn/webapp-key
+
+exit 0
