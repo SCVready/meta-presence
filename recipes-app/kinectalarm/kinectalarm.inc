@@ -1,7 +1,7 @@
 
 inherit cmake update-rc.d
 
-DEPENDS = "libfreenect ffmpeg freeimage hiredis libevent openssl sqlite3 bash"
+DEPENDS = "libfreenect ffmpeg freeimage hiredis libevent openssl sqlite3 bash gtest"
 
 do_install_append () {
 	
@@ -42,4 +42,4 @@ pkg_postinst_${PN} () {
 INITSCRIPT_NAME = "kinectalarm"
 INITSCRIPT_PARAMS = "defaults 90 20"
 
-RDEPENDS_${PN} += "libstdc++ openssl libevent hiredis sqlite3"
+RDEPENDS_${PN} += "libstdc++ openssl libevent hiredis sqlite3 gtest"
