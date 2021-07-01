@@ -1,7 +1,7 @@
 
 inherit cmake update-rc.d
 
-DEPENDS = "libfreenect ffmpeg freeimage hiredis libevent openssl sqlite3"
+DEPENDS = "libfreenect ffmpeg freeimage hiredis libevent openssl sqlite3 bash"
 
 do_install_append () {
 	

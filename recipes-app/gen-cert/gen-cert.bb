@@ -31,4 +31,4 @@ do_install_append () {
 INITSCRIPT_NAME = "gen-cert"
 INITSCRIPT_PARAMS = "defaults 91 20"
 
-RDEPENDS_${PN} += "openssl-bin"
+RDEPENDS_${PN} += "openssl-bin bash"

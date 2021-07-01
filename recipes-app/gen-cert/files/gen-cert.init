@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 OPENSSL=/usr/bin/openssl
 CERT=/etc/gunicorn/cert.pem

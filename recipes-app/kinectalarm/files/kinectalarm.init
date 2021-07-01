@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/kinectalarm
 NAME=kinectalarm
@@ -17,20 +17,19 @@ set -e
 case "$1" in
   start)
         echo -n "Starting $DESC: "
-        start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PID \
-                --name $NAME --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PID --name $NAME --exec $DAEMON -- $DAEMON_OPTS
         echo "$NAME."
         ;;
   stop)
         echo -n "Stopping $DESC: "
-        start-stop-daemon -K --quiet --pidfile $PID
+        start-stop-daemon --stop --signal 2 --quiet --pidfile $PID
         echo "$NAME."
         ;;
   restart)
         echo -n "Restarting $DESC: "
-        start-stop-daemon -K --quiet --pidfile $PID
+        start-stop-daemon --stop --signal 2 --quiet --pidfile $PID
         sleep 1
-        start-stop-daemon --start --quiet --background --exec $DAEMON -- $DAEMON_OPTS
+        start-stop-daemon --start --quiet --background --make-pidfile --pidfile $PID --name $NAME --exec $DAEMON -- $DAEMON_OPTS
         echo "$NAME."
         ;;
   *)

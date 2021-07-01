@@ -27,3 +27,5 @@ do_install () {
 }
 
 FILES_${PN} += "${base_prefix}/home/root/emailsender/*"
+
+RDEPENDS_${PN} += " bash"
