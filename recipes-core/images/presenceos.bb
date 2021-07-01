@@ -22,8 +22,9 @@ IMAGE_INSTALL_append+="libevent"
 IMAGE_INSTALL_append+="sqlite3"
 IMAGE_INSTALL_append+="python-pysqlite"
 
-IMAGE_INSTALL_append+="e2fsprogs"
-IMAGE_INSTALL_append+="parted"
+IMAGE_INSTALL_append+="resizerootfs"
+
+IMAGE_INSTALL_append+="rsync"
 
 IMAGE_INSTALL_append+="zip"
 

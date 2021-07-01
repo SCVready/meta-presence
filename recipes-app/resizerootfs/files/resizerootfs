@@ -1,0 +1,40 @@
+#! /bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/bin/gunicorn
+NAME=gunicorn
+DESC=gunicorn
+PID=/run/gunicorn/gunicorn.pid
+STATE_FILE=/etc/resizerootfs/state
+
+DAEMON_OPTS="-c /etc/gunicorn/gunicorn_conf.py webapp:app"
+
+test -x $DAEMON || exit 0
+
+# Include gunicorn defaults if available
+if [ -f /etc/default/gunicorn ] ; then
+        . /etc/default/gunicorn
+fi
+
+set -e
+
+case "$1" in
+  start)
+        echo -n "Updating resize filesystem status to Redis "
+        value=$(<$STATE_FILE)
+        redis-cli -s /tmp/redis.sock set resizerootfs $value
+        ;;
+  expand)
+        echo -n "Expanding filesystem"
+        parted /dev/mmcblk0 resizepart 2 100%
+        start-stop-daemon --start --background --exec resize2fs /dev/mmcblk0p2
+        echo "1" > $STATE_FILE
+        redis-cli -s /tmp/redis.sock set resizerootfs 1
+        ;;
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|expand}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
