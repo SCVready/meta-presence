@@ -3,8 +3,8 @@ LICENSE = "MIT"
 
 HOMEPAGE = "http://michaelmickelson.com/js-snackbar"
 
-SRC_URI = "git://github.com/mickelsonmichael/js-snackbar"
-SRCREV = "${AUTOREV}"
+SRC_URI = "git://github.com/mickelsonmichael/js-snackbar.git;protocol=git;branch=master"
+SRCREV = "dc0dbb1407eba1ded2f656df0038de60b9c48338"
 
 SRC_URI += "file://customization.patch \
             "
