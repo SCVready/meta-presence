@@ -1,0 +1,54 @@
+#! /bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/bin/noip2
+CONF_FILE=/etc/noip/noip.conf
+
+set -e
+
+case "$1" in
+
+start)
+    if $DAEMON -c $CONF_FILE; then
+        exit 0
+    else
+        exit 1
+    fi
+    ;;
+
+stop)
+    if $DAEMON -c $CONF_FILE -K 0; then
+        exit 0
+    else
+        exit 1
+    fi
+    ;;
+
+setconfig)
+    if test "$#" -ne 4; then
+        echo "illegal number of parameters"
+        exit 1
+    fi
+
+    if $DAEMON -C -c $CONF_FILE -u $2 -p $3 -l $4 -U 30; then
+        exit 0
+    else
+        exit 1
+    fi
+    ;;
+
+getconfig)
+    read IP <<< $($DAEMON -S -c $CONF_FILE 2>&1 | awk '/IP Address set[[:space:]]/ { print $5 }')
+    read USER <<< $($DAEMON -S -c $CONF_FILE 2>&1 | awk '/Account[[:space:]]/ { print $2 }')
+    read DOMAIN <<< $($DAEMON -S -c $CONF_FILE 2>&1 | awk '/host[[:space:]]/ { print $2 }')
+    if [ -z "$USER" ] || [ -z "$DOMAIN" ]; then exit 1;
+        else echo $USER $DOMAIN $IP; fi
+    ;;
+
+*)
+    N=/etc/init.d/$NAME
+    echo "Usage: $N {start|stop|setconfig|getconfig}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0

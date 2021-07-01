@@ -1,0 +1,58 @@
+diff --git a/noip2.c b/noip2.c
+index f6496d5..e0a5a2e 100644
+--- a/noip2.c
++++ b/noip2.c
+@@ -2533,12 +2533,12 @@ void autoconf()
+         if ((x = Connect(port_to_use)) != SUCCESS) { 
+             handle_dynup_error(x);
+ 	    Msg(CMSG27);
+-	    return;
++	    exit(1);
+ 	}
+         sprintf(buffer, "GET http://%s/\r\n\r\n", NOIP_IP_SCRIPT);
+         if ((x = converse_with_web_server()) <= 0) {
+             handle_dynup_error(x);
+-	    return;
++	    exit(1);
+ 	}
+         p = buffer;
+         if ((*p >= '0') && (*p <= '9')) {	// extract IP address
+@@ -2558,7 +2558,7 @@ void autoconf()
+ 	get_credentials(login, password);
+         if ((x = Connect(port_to_use)) != SUCCESS) {
+             handle_dynup_error(x);
+-	    return;
++	    exit(1);
+ 	}
+ 	sprintf(line, "%s%s%s%s", USTRNG, login, PWDSTRNG, password);
+ 	bencode(line, encline);
+@@ -2566,7 +2566,7 @@ void autoconf()
+        		NOIP_NAME, SETTING_SCRIPT, REQUEST, encline, USER_AGENT);
+         if ((x = converse_with_web_server()) <= 0) {
+             handle_dynup_error(x);
+-	    return;
++	    exit(1);
+ 	}
+         close(socket_fd);
+ 
+@@ -2584,17 +2584,17 @@ void autoconf()
+             while (strncmp(p, s->keyword, s->len) != 0) 
+                 s++;
+             if (s->func(line))                    // process line
+-		return;
++	    exit(1);
+         }
+         groups->grp = 0;                       // remove marker
+ 	if ((groups->count != 0) || (groups->ncount != 0)) {
+             x = get_update_selection(groups->count, groups->ncount);
+ 	    if ( x < 0)
+-		return;
++	    exit(1);
+ 	}
+ 	if (reqnum == 0) {
+ 	    Msg(CMSG29, config_filename);
+-	    return;
++	    exit(1);
+ 	}
+ 	request = (char *)Malloc(x*2);	// get enough space
+ 	new_config->rlength = bencode(buffer, request);

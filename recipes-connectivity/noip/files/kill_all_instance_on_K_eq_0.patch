@@ -1,0 +1,117 @@
+diff --git a/noip2.c b/noip2.c
+index b300168..f6496d5 100644
+--- a/noip2.c
++++ b/noip2.c
+@@ -366,6 +366,7 @@ int	shmid			=	0;
+ int	multiple_instances	=	0;
+ int	debug_toggle		=	0;
+ int	kill_proc		=	0;
++int	kill_requested	=	0;
+ int	reqnum			=	0;
+ int	prompt_for_executable	=	1;
+ int	shm_dump_active		=	0;
+@@ -726,10 +727,11 @@ void process_options(int argc, char *argv[])
+ 			multiple_instances++;
+ 			have_args |= ARGM;
+ 			break;
+-                case 'K':
+-                        kill_proc = atoi(optarg);
++		case 'K':
++			kill_requested = 1;
++			kill_proc = atoi(optarg);
+ 			have_args |= ARGK;
+-                        break;
++			break;
+ 		case 'i':
+ 			strcpy(IPaddress, optarg);
+ 			strcat(saved_args, " -i ");
+@@ -771,7 +773,7 @@ void process_options(int argc, char *argv[])
+ 	    Msg("Error! -D option can't be used with any other options.");
+ 	    exit(1);
+ 	}
+-	if (kill_proc && (have_args != ARGK)){
++	if ((have_args & ARGK) && (have_args != ARGK)){
+ 	    Msg("Error! -K option can't be used with any other options.");
+ 	    exit(1);
+ 	}
+@@ -1357,29 +1359,32 @@ void display_current_config()
+ 	struct	INSTANCE *is;
+ 
+ 	if ((shmid = shmget(NOIP_KEY, SHMEM_SIZE, 0)) != -1) {
+-	    flag = ((debug_toggle || kill_proc || update_cycle) ? 0 : SHM_RDONLY);
++	    flag = ((debug_toggle || kill_requested || update_cycle) ? 0 : SHM_RDONLY);
+ 	    if ((shmaddr = shmat(shmid, 0, flag)) != (void *)-1) {
+ 		shared = (struct SHARED *)shmaddr;
+ 		for (i=0; i<MAX_INSTANCE; i++) {
+ 		    is = &shared->instance[i];
+ 		    if (is->pid) {
+ 			in_use++;
+-			if (is->pid == kill_proc) {
+-			    if (kill(kill_proc, SIGTERM) != 0) {
+-				if (errno == ESRCH) {	// no process
+-				    is->pid = 0;	// clean up 
+-				    in_use--;
+-				} else {
+-			            Msg("Can't terminate process %d (%s).",
+-						  kill_proc, strerror(errno));
+-				    shmdt(shmaddr);
+-				    return;
++			if (kill_requested)
++			{
++				if (is->pid == kill_proc || kill_proc == 0) {
++					if (kill(is->pid, SIGTERM) != 0) {
++					if (errno == ESRCH) {	// no process
++						is->pid = 0;	// clean up 
++						in_use--;
++					} else {
++							Msg("Can't terminate process %d (%s).",
++								is->pid, strerror(errno));
++						shmdt(shmaddr);
++						return;
++					}
++					}
++					Msg("Process %d terminated.",  is->pid);
++					shmdt(shmaddr);
++					return;
++					break;
+ 				}
+-			    }
+-			    Msg("Process %d terminated.",  kill_proc);
+-			    shmdt(shmaddr);
+-			    return;
+-			    break;
+ 			}
+ 			if (is->pid == debug_toggle) {
+ 			    is->debug = (is->debug ? 0 : 1);
+@@ -1400,8 +1405,11 @@ void display_current_config()
+ 			}
+ 		    }
+ 		}
+-		if (kill_proc) {
+-		    Msg("Process %d not found.",  kill_proc);
++		if (kill_requested) {
++			if(kill_proc)
++				Msg("Process %d not found.",  kill_proc);
++			else
++				Msg("Process not found.");
+ 		    shmdt(shmaddr);
+ 		    return;
+ 		}
+@@ -1450,7 +1458,7 @@ void display_current_config()
+ 	if (debug_toggle) {
+ 	    Msg("No debug state changed.");
+ 	} else {
+-	    if (kill_proc) {
++	    if (kill_requested) {
+ 		Msg("No process terminated.");
+ 	    } else {
+ 		Msg("\nConfiguration data from %s.", config_filename);
+@@ -1511,7 +1519,7 @@ int parse_config()
+ 	interval = new_config->interval;
+ 	nat = new_config->nat;
+ 	reqnum = new_config->count;
+-	if (show_config || debug_toggle || kill_proc || update_cycle) {
++	if (show_config || debug_toggle || kill_requested || update_cycle) {
+ 	    display_current_config();
+ 	    free(request);
+ 	    free(new_config);
