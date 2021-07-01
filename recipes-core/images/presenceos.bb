@@ -14,6 +14,8 @@ IMAGE_INSTALL_append+="webapp"
 IMAGE_INSTALL_append+="emailsender"
 IMAGE_INSTALL_append+="gen-cert"
 IMAGE_INSTALL_append+="webapp-keygen"
+IMAGE_INSTALL_append+="resizerootfs"
+IMAGE_INSTALL_append+="noip"
 
 IMAGE_INSTALL_append+="redis"
 IMAGE_INSTALL_append+="python-redis"
@@ -22,10 +24,8 @@ IMAGE_INSTALL_append+="libevent"
 IMAGE_INSTALL_append+="sqlite3"
 IMAGE_INSTALL_append+="python-pysqlite"
 
-IMAGE_INSTALL_append+="resizerootfs"
 
 IMAGE_INSTALL_append+="rsync"
-
 IMAGE_INSTALL_append+="zip"
 
 IMAGE_LINGUAS = " "

@@ -1,0 +1,121 @@
+diff --git a/noip2.c b/noip2.c
+index d34a1f7..b300168 100644
+--- a/noip2.c
++++ b/noip2.c
+@@ -217,9 +217,9 @@
+   #define UPDATE_SCRIPT		"ducupdate.php"
+ 
+ #ifdef DEBUG
+-  #define OPTCHARS		"CYU:Fc:dD:hp:u:x:SMi:K:I:z"
++  #define OPTCHARS		"CYU:Fc:dD:hp:u:l:x:SMi:K:I:z"
+ #else
+-  #define OPTCHARS		"CYU:Fc:hp:u:x:SMi:K:I:z"
++  #define OPTCHARS		"CYU:Fc:hp:u:l:x:SMi:K:I:z"
+ #endif
+ #define ARGC			1
+ #define ARGF			(1<<1)
+@@ -228,12 +228,13 @@
+ #define ARGI			(1<<4)
+ #define ARGu			(1<<5)
+ #define ARGp			(1<<6)
+-#define ARGx			(1<<7)
+-#define ARGD			(1<<8)
+-#define ARGS			(1<<9)
+-#define ARGM			(1<<10)
+-#define ARGK			(1<<11)
+-#define ARGi			(1<<12)
++#define ARGl			(1<<7)
++#define ARGx			(1<<8)
++#define ARGD			(1<<9)
++#define ARGS			(1<<10)
++#define ARGM			(1<<11)
++#define ARGK			(1<<12)
++#define ARGi			(1<<13)
+ 
+ #define NODNSGROUP		"@@NO_GROUP@@"
+ #define HOST			1
+@@ -342,7 +343,7 @@
+ #define CMSG99a	"to get our most recent version.\n"  
+ 
+ #define CMSG100 \
+-"Error! -C option can only be used with -F -Y -U -I -c -u -p -x options."
++"Error! -C option can only be used with -F -Y -U -I -c -u -p -l -x options."
+ #define CMSG101	" Both -u and -p options must be used together."
+ 
+ int	debug			= 	0;
+@@ -380,6 +381,7 @@ char	*pid_path		=	NULL;
+ char	*execpath		=	NULL;
+ char	*supplied_username	=	NULL;
+ char	*supplied_password	=	NULL;
++char	*supplied_domain	=	NULL;
+ char	*supplied_executable	=	NULL;
+ char	IPaddress[IPLEN];
+ char	login[LINELEN];
+@@ -526,7 +528,7 @@ void Usage()
+ {
+ 	fprintf(stderr,  "\nUSAGE: %s ", program);
+ 	fprintf(stderr,  "[ -C [ -F][ -Y][ -U #min]\n\t");
+-	fprintf(stderr,  "[ -u username][ -p password][ -x progname]]\n\t");
++	fprintf(stderr,  "[ -u username][ -p password][ -l domain][ -x progname]]\n\t");
+ 	fprintf(stderr,  "[ -c file]");
+ #ifdef DEBUG
+         fprintf(stderr, "[ -d][ -D pid]");
+@@ -539,6 +541,7 @@ void Usage()
+ 	fprintf(stderr, "         -U minutes       set update interval\n");
+ 	fprintf(stderr, "         -u username      use supplied username\n");
+ 	fprintf(stderr, "         -p password      use supplied password\n");
++	fprintf(stderr, "         -l domain        use supplied domain\n");
+ 	fprintf(stderr, "         -x executable    use supplied executable\n");
+ 	fprintf(stderr, "         -c config_file   use alternate data path\n");
+ #ifdef DEBUG
+@@ -703,6 +706,10 @@ void process_options(int argc, char *argv[])
+ 			supplied_password = optarg;
+ 			have_args |= ARGp;
+ 			break;
++		case 'l':
++			supplied_domain = optarg;
++			have_args |= ARGl;
++			break;
+ 		case 'x':
+ 			supplied_executable = optarg;
+ 			have_args |= ARGx;
+@@ -2028,7 +2035,7 @@ int get_update_selection(int tgrp, int thst)
+ 	    return len;
+ 	}
+ 	fprintf(stderr, CMSG32);
+-	if (forceyes)
++	if (forceyes || supplied_domain)
+ 	    prompt = 0;
+ 	else
+ 	    prompt = !yesno(CMSG33);
+@@ -2042,13 +2049,23 @@ int get_update_selection(int tgrp, int thst)
+ 		    len = add_to_request(GROUP, g->grp);
+ 	    } else {			// just hosts without groups
+ 		n = g->nlink;
+-		while (n) {
+-		    if (prompt)  {
+-			x = yesno(CMSG35, n->fqdn);
+-		        if (x)
+-			    len = add_to_request(HOST, n->fqdn);
+-		    } else
+-			len = add_to_request(HOST, n->fqdn);
++		while (n)
++		{
++			if (prompt)
++			{
++				x = yesno(CMSG35, n->fqdn);
++				if (x)
++				{
++					len = add_to_request(HOST, n->fqdn);
++				}
++			}
++			else
++			{
++				if(0 == strncmp(supplied_domain, n->fqdn, strlen(supplied_domain)))
++				{
++					len = add_to_request(HOST, n->fqdn);
++				}
++			}
+ 		    n = n->link;
+ 		}
+ 	    }
