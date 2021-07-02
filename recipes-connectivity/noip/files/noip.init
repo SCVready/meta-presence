@@ -3,8 +3,6 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/noip2
 CONF_FILE=/etc/noip/noip.conf
 
-set -e
-
 case "$1" in
 
 start)
@@ -24,16 +22,24 @@ stop)
     ;;
 
 setconfig)
+    return_value=0
+
     if test "$#" -ne 4; then
         echo "illegal number of parameters"
         exit 1
     fi
 
-    if $DAEMON -C -c $CONF_FILE -u $2 -p $3 -l $4 -U 30; then
-        exit 0
-    else
-        exit 1
+    # Stop the procces if it's running
+    $DAEMON -c $CONF_FILE -K 0;
+
+    if ! $DAEMON -C -c $CONF_FILE -u $2 -p $3 -l $4 -U 30; then
+        return_value=1
     fi
+
+    # Start the procces
+    $DAEMON -c $CONF_FILE;
+
+    exit $return_value
     ;;
 
 getconfig)
@@ -44,9 +50,21 @@ getconfig)
         else echo $USER $DOMAIN $IP; fi
     ;;
 
+removeconfig)
+    # Stop the procces if it's running
+    $DAEMON -c $CONF_FILE -K 0;
+
+    if ! rm $CONF_FILE; then
+        exit 1 
+    else
+        exit 0
+    fi
+
+    ;;
+
 *)
     N=/etc/init.d/$NAME
-    echo "Usage: $N {start|stop|setconfig|getconfig}" >&2
+    echo "Usage: $N {start|stop|setconfig|getconfig|removeconfig}" >&2
     exit 1
     ;;
 esac
