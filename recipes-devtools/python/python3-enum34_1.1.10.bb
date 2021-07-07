@@ -1,0 +1,9 @@
+LICENSE="CLOSED"
+LIC_FILES_CHKSUM=""
+
+SRC_URI[md5sum] = "b5ac0bb5ea9e830029599e410d09d3b5"
+SRC_URI[sha256sum] = "cce6a7477ed816bd2542d03d53db9f0db935dd013b70f336a95c73979289f248"
+
+inherit pypi setuptools3
+
+PYPI_PACKAGE = "enum34"

@@ -1,0 +1,9 @@
+LICENSE="CLOSED"
+LIC_FILES_CHKSUM=""
+
+SRC_URI[md5sum] = "aaee67a8026782af1831148beb0d9060"
+SRC_URI[sha256sum] = "b7f8e0369580bb4a24d5ba1d7cc29660a4a6987763faf1d8a8046830e020e7e2"
+
+inherit pypi setuptools3
+
+PYPI_PACKAGE = "ipaddress"

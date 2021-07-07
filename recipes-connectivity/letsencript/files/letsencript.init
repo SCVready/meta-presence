@@ -1,0 +1,28 @@
+#! /bin/bash
+
+case "$1" in
+    start)
+            echo -n "Updating resize filesystem status to Redis "
+            value=$(<$STATE_FILE)
+            redis-cli -s /tmp/redis.sock set resizerootfs $value
+            ;;
+    create_certificate)
+            if test "$#" -ne 2; then
+                echo "illegal number of parameters"
+                exit 1
+            fi
+        sed -i "s/server_name  .*;/server_name  $2;/g" /etc/nginx/sites-enabled/webserver
+        if ! certbot --nginx -n --domains $2 --agree-tos --email asd@asd.com; then
+            exit 1
+        else
+            /etc/init.d/nginx restart
+        fi
+            ;;
+    *)
+            N=/etc/init.d/$NAME
+            echo "Usage: $N {start|expand}" >&2
+            exit 1
+            ;;
+esac
+
+exit 0

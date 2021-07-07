@@ -1,0 +1,9 @@
+LICENSE="CLOSED"
+LIC_FILES_CHKSUM=""
+
+SRC_URI[md5sum] = "fb8918fe699d79a470dcd959b77466d7"
+SRC_URI[sha256sum] = "4cb368fbb18a0b7231f4d76119165451c8d2e35951455dfee97c62a87b04d455"
+
+inherit pypi setuptools3
+
+PYPI_PACKAGE = "parsedatetime"
