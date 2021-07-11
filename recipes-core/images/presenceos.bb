@@ -17,6 +17,7 @@ IMAGE_INSTALL_append+="webapp-keygen"
 IMAGE_INSTALL_append+="resizerootfs"
 IMAGE_INSTALL_append+="noip"
 IMAGE_INSTALL_append+="letsencript"
+IMAGE_INSTALL_append+="date-update"
 
 IMAGE_INSTALL_append+="redis"
 IMAGE_INSTALL_append+="python-redis"
@@ -24,8 +25,6 @@ IMAGE_INSTALL_append+="hiredis"
 IMAGE_INSTALL_append+="libevent"
 IMAGE_INSTALL_append+="sqlite3"
 IMAGE_INSTALL_append+="python-pysqlite"
-
-IMAGE_INSTALL_append+="htpdate"
 
 IMAGE_INSTALL_append+="rsync"
 IMAGE_INSTALL_append+="zip"
