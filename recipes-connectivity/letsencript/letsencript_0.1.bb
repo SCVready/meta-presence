@@ -18,4 +18,4 @@ do_install_append () {
 INITSCRIPT_NAME = "letsencript"
 INITSCRIPT_PARAMS = "defaults 90 20"
 
-RDEPENDS_${PN} += "python3-certbot python3-certbot-nginx bash"
+RDEPENDS_${PN} += "python3-certbot python3-certbot-nginx bash cronie"

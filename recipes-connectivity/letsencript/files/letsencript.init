@@ -2,9 +2,9 @@
 
 case "$1" in
     start)
-            echo -n "Updating resize filesystem status to Redis "
-            value=$(<$STATE_FILE)
-            redis-cli -s /tmp/redis.sock set resizerootfs $value
+            echo "* 00,12 * * * certbot renew" > job
+            crontab job
+            rm job
             ;;
     create_certificate)
             if test "$#" -ne 2; then
