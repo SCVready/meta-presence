@@ -14,4 +14,6 @@ SRC_URI += " \
 
 S = "${WORKDIR}/git/"
 
+DEFAULT_PREFERENCE = "-1"
+
 LIC_FILES_CHKSUM = "file://LICENSE;md5=3c34afdc3adf82d2448f12715a255122"

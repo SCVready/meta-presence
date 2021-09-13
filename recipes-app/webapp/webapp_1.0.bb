@@ -9,7 +9,7 @@ SRC_URI += " \
             file://gunicorn.init \
             file://gunicorn-volatile.conf \
             file://gunicorn_conf.py \
-	    file://password \
+            file://password \
            "
 
 S = "${WORKDIR}/git/"

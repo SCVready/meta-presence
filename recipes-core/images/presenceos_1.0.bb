@@ -4,8 +4,6 @@ IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
 
 LOCALE_UTF8_ONLY="1"
 
-PV="0.1"
-
 IMAGE_INSTALL_append+="openssh"
 IMAGE_INSTALL_append+="glibc-utils localedef"
 IMAGE_INSTALL_append+="kinectalarm"
